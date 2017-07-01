@@ -12,6 +12,6 @@ Requirements
 
 Options
 =======
-* -h <hostname> 
-* -p <ssh port> // default port is 29418
-* -u <username> // defaults to your current login
+* -h [hostname] 
+* -p [ssh port] // default port is 29418
+* -u [username] // defaults to your current login
