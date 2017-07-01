@@ -209,9 +209,15 @@ if __name__ == '__main__':
     if '-h' in sys.argv:
         i = sys.argv.index('-h') + 1
         if i >= len(sys.argv):
-            print('User name not defined')
+            print('Host name expected')
             sys.exit(1)
         connection['server'] = sys.argv[i]
+    if '-p' in sys.argv:
+        i = sys.argv.index('-p') + 1
+        if i >= len(sys.argv):
+            print('Host name expected')
+            sys.exit(1)
+        connection['port'] = int(sys.argv[i])
 
     GUI = GerritUI(connection['username'], g_server=login(**connection))
     d = GUI.exec_()
