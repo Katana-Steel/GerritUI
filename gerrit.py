@@ -28,7 +28,7 @@ import os
 
 
 def login(
-        server='172.26.100.35',
+        server,
         port=29418,
         username=os.getlogin(),
         cli=SSHClient(),
