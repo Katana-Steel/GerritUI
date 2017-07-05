@@ -19,7 +19,7 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QGroupBox" name="groupBox_2">
+        <widget class="QGroupBox" name="codereview">
          <property name="title">
           <string/>
          </property>
@@ -105,7 +105,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QGroupBox" name="groupBox">
+        <widget class="QGroupBox" name="verified">
          <property name="title">
           <string/>
          </property>
@@ -179,12 +179,17 @@
        <item>
         <widget class="QDialogButtonBox" name="bb">
          <property name="standardButtons">
-          <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+          <set>QDialogButtonBox::Close|QDialogButtonBox::Ok</set>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QListView" name="files">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+          </font>
+         </property>
          <property name="editTriggers">
           <set>QAbstractItemView::EditKeyPressed</set>
          </property>
@@ -224,18 +229,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>files</zorder>
-  <zorder>code_u2</zorder>
-  <zorder>code_u1</zorder>
-  <zorder>label</zorder>
-  <zorder>veri_u1</zorder>
-  <zorder>veri_0</zorder>
-  <zorder>veri_d1</zorder>
-  <zorder>horizontalSpacer_2</zorder>
-  <zorder>label_2</zorder>
-  <zorder>bb</zorder>
-  <zorder>message</zorder>
-  <zorder>groupBox</zorder>
   <zorder>actionLog</zorder>
   <zorder></zorder>
  </widget>
