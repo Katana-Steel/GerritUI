@@ -266,7 +266,7 @@ class GerritUI(QWidget):
         model.setStringList(opts)
         list_view.setModel(model)
 
-    def __init__(self, user, parent=None, g_server=login()):
+    def __init__(self, user, g_server, parent=None):
         QDialog.__init__(self, parent)
         self._cli = g_server
         self.user = user
