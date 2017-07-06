@@ -96,6 +96,12 @@ class Change(QDialog):
         ap = '{reviewer[name]} {message}'
         if 'comments' in self.data:
             for ps in self.data['comments']:
+                rev = ps['reviewer']
+                if 'name' not in rev:
+                    if 'username' in rev:
+                        rev['name'] = rev['username']
+                    else:
+                        rev['name'] = rev['email'].split('@')[0]
                 p.append(ap.format(**ps))
 
         model = QStringListModel(self)
@@ -151,6 +157,12 @@ class Change(QDialog):
         QDialog.__init__(self, parent)
         self.data = gerrit_dict
         self.user = user
+        own = self.data['owner']
+        if 'name' not in own:
+            if 'username' in own:
+                own['name'] = own['username']
+            else:
+                own['name'] = own['email'].split('@')[0]
         self.one_line = '{owner[name]: <30} {number: <5} {project: <15} '
         self.one_line += '{subject: <.40}'
         self.review = {
