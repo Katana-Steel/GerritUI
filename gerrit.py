@@ -153,6 +153,16 @@ class Change(QDialog):
             self.applyApprovals()
         self.listFilesChanged()
 
+    @pyqtSlot(QModelIndex)
+    def getDiffView(self, index):
+        f = self.data['currentPatchSet']['files']
+        file_name = f[index.row()]['file']
+        html = '<!DOCTYPE html>\n<html><head><title></title></head>\n'
+        html += '<body>{0}</body></html>'
+        self.ui.findChild(QTextBrowser, 'diffView').setHtml(
+            html.format(file_name)
+        )
+
     def __init__(self, user, gerrit_dict={}, parent=None):
         QDialog.__init__(self, parent)
         self.data = gerrit_dict
@@ -177,11 +187,16 @@ class Change(QDialog):
         QVBoxLayout(self).addWidget(self.ui)
         self.resize(self.ui.frameSize())
         self.ui.findChild(QDialogButtonBox, 'bb').clicked.connect(self.exit)
+        self.ui.findChild(QListView, 'files').clicked.connect(self.getDiffView)
         status = self.data['status']
         if status != 'MERGED' and status != 'ABANDONED':
             self.ui.findChild(QDialogButtonBox, 'bb').addButton(
                 'Submit',
                 QDialogButtonBox.ApplyRole
+            )
+            self.ui.findChild(QDialogButtonBox, 'bb').addButton(
+                'Publish',
+                QDialogButtonBox.AcceptRole
             )
             self.ui.findChild(QDialogButtonBox, 'bb').addButton(
                 'Abandon',
@@ -213,6 +228,8 @@ class GerritUI(QWidget):
             self.getOpen()
         if 'Merged' in button.text():
             self.getMerged()
+        if 'Abandoned' in button.text():
+            self.getAbandon()
 
     @pyqtSlot(QModelIndex)
     def ChangeSelected(self, index):
@@ -268,6 +285,19 @@ class GerritUI(QWidget):
     def getMerged(self):
         self.reviews = []
         change_list = self.query('status:merged limit:25')
+        for rev in change_list[:-2]:
+            self.reviews.append(Change(self.currentUser(), eval(rev), self))
+        list_view = self.ui.findChild(QListView, 'change_list')
+        model = QStringListModel(self.ui)
+        opts = []
+        for rev in self.reviews:
+            opts.append(str(rev))
+        model.setStringList(opts)
+        list_view.setModel(model)
+
+    def getAbandon(self):
+        self.reviews = []
+        change_list = self.query('status:abandoned limit:25')
         for rev in change_list[:-2]:
             self.reviews.append(Change(self.currentUser(), eval(rev), self))
         list_view = self.ui.findChild(QListView, 'change_list')
